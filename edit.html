@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.imgur.com/QrxNR2Y.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 700px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .flash-message {
+            width: 80%;
+            margin-bottom:20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .flash-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .flash-error {
+            background-color: #f44336;
+            color: white;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-top: 20px;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="datetime-local"],
+        input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 2.5em;
+            color: #007bff;
+        }
+
+        .info-text {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1>Edit Appointment</h1>
+        <p class="info-text">
+            Use this form to update your appointment details. Ensure all fields are filled correctly for a seamless experience.
+        </p>
+        <form action="/edit?id={{ id }}" method="POST">
+            <label for="name">Patient Name:</label>
+            <input type="text" id="name" name="name" value="{{ oldname }}" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" value="{{ oldage }}" required>
+
+            <label for="gender">Gender:</label>
+            <input type="text" id="gender" name="gender" value="{{ oldgender }}" required>
+
+            <label for="mobile">Mobile:</label>
+            <input type="tel" id="mobile" name="mobile" inputmode="numeric" pattern="[0-9]*" value="{{ oldcontact }}" required>
+
+            <label for="doctor">Doctor:</label>
+            <input type="text" id="doctor" name="doctor" value="{{ olddoctor }}" required>
+
+            <label for="datetime">Date and Time:</label>
+            <input type="datetime-local" id="datetime" name="datetime" value="{{ olddate }}" required>
+
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</body>
+</html>
