@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Availability</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .header {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+        }
+        .header a {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .header a:hover {
+            background-color: #4cae4c;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+        }
+        select, input[type="submit"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        .result {
+            margin-top: 20px;
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .doctor-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .doctor-card h3 {
+            margin-top: 0;
+        }
+        .schedule-table {
+            margin-top: 10px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .schedule-table th, .schedule-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .schedule-table th {
+            background-color: #f2f2f2;
+        }
+        .no-result {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/userhome">User Home</a>
+    </div>
+    <form action="/doctoravailability" method="POST">
+        <select name="doctor" required>
+            <option value="" disabled selected>Select a specialization</option>
+            <option value="Neuro">Neuro</option>
+            <option value="ENT">ENT</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Psychology">Psychology</option>
+            <!-- Add more specializations as needed -->
+        </select>
+        <input type="submit" name="action" value="Search">
+    </form>
+
+    {% if data %}
+        <div class="result">
+            {% if data == "No doctor appointed for your necessity" %}
+                <p class="no-result">{{ data }}</p>
+            {% else %}
+                {% for doctor in data %}
+                    <div class="doctor-card">
+                        <h3>Doctor Name:    {{ doctor[0] }}</h3>
+                        <p><strong>Specialization:</strong> {{ doctor[1] }}</p>
+                        <p>Available Timings:</p>
+                        <table class="schedule-table">
+                            <tr>
+                                <th>Day</th>
+                                <th>Timing</th>
+                            </tr>
+                            <tr>
+                                <td>Monday</td>
+                                <td>{{ doctor[2] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>{{ doctor[3] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>{{ doctor[4] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>{{ doctor[5] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>{{ doctor[6] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>{{ doctor[7] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>{{ doctor[8] }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Doctor Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+        form h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="text"], select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: green;
+        }
+        .day-labels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .day-labels div {
+            margin-bottom: 5px;
+        }
+        p {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: -10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/add" method="POST">
+        <h2>Add Doctor Schedule</h2>
+        <label for="doctorname">Doctor Name</label>
+        <input type="text" id="doctorname" name="doctorname" placeholder="Enter doctor's name" required>
+
+        <label for="doctor">Doctor belongs to</label>
+        <select id="doctor" name="doctor" required>
+            <option value="" disabled selected>Select a department</option>
+            <option value="Neuro">Neuro</option>
+            <option value="ENT">ENT</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Psychology">Psychology</option>
+
+            <!-- Add more departments as needed -->
+        </select>
+        <br>
+        <br>
+            <br>
+
+        <p>If not available just mention " -- "</p>
+
+        <div class="day-labels">
+            <div>
+                <label for="monday">Monday</label>
+                <input type="text" id="monday" name="monday" placeholder="00AM to 00PM">
+            </div>
+            <div>
+                <label for="tuesday">Tuesday</label>
+                <input type="text" id="tuesday" name="tuesday" placeholder="00AM to 00PM">
+            </div>
+            <div>
+                <label for="wednesday">Wednesday</label>
+                <input type="text" id="wednesday" name="wednesday" placeholder="00AM to 00PM">
+            </div>
+            <div>
+                <label for="thursday">Thursday</label>
+                <input type="text" id="thursday" name="thursday" placeholder="00AM to 00PM">
+            </div>
+            <div>
+                <label for="friday">Friday</label>
+                <input type="text" id="friday" name="friday" placeholder="00AM to 00PM">
+            </div>
+            <div>
+                <label for="saturday">Saturday</label>
+                <input type="text" id="saturday" name="saturday" placeholder="00AM to 00PM">
+            </div>
+            <div>
+                <label for="sunday">Sunday</label>
+                <input type="text" id="sunday" name="sunday" placeholder="00AM to 00PM">
+            </div>
+        </div>
+
+        <input type="submit" value="ADD+">
+        {{re}}
+    </form>
+</body>
+</html>

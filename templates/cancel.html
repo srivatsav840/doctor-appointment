@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        h1 {
+            color: #444;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .appointment-card {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 80%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-card h2 {
+            margin: 0 0 10px;
+            color: #4CAF50;
+        }
+
+        .appointment-details {
+            margin: 10px 0;
+        }
+
+        .appointment-actions {
+            text-align: right;
+        }
+
+        .appointment-actions form {
+            display: inline-block; /* Ensures forms are inline */
+        }
+
+        .appointment-actions button {
+            margin: 0 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .update-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .update-button:hover {
+            background-color: #45a049;
+        }
+
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .no-tasks {
+            text-align: center;
+            margin: 20px;
+            color: #777;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"], input[type="submit"] {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: green;
+        }
+
+        .flash-message {
+            width: 80%;
+            margin: 20px auto;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .flash-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .flash-error {
+            background-color: #f44336;
+            color: white;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Appointments</h1>
+    <form action="/cancel" method="GET">
+        <input type="text" id="search" name="search" placeholder="Search appointments...">
+        <input type="submit" value="Search">
+    </form>
+    {% if data %}
+        {% for task in data %}
+            <div class="appointment-card">
+                <h2>Appointment ID: {{ task[0] }}</h2>
+                <div class="appointment-details">
+                    <p><strong>Patient Name:</strong> {{ task[1] }}</p>
+                    <p><strong>Age:</strong> {{ task[2] }}</p>
+                    <p><strong>DateTime:</strong> {{ task[3] }}</p>
+                    <p><strong>Doctor:</strong> {{ task[4] }}</p>
+                    <p><strong>Contact:</strong> {{ task[5] }}</p>
+                </div>
+                <div class="appointment-actions">
+                    <form action="/edit" method="GET">
+                        <input type="hidden" name="id" value="{{ task[0] }}">
+                        <button class="update-button" type="submit">Reschedule</button>
+                    </form>
+                    <form action="/confirmcancel" method="POST" onsubmit="return confirmCancel();">
+                        <input type="hidden" name="task" value="{{ task[0] }}">
+                        <button class="delete-button" type="submit">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-tasks">No appointments available.</p>
+    {% endif %}
+
+    <a href="{{ url_for('userhome') }}">Back</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <script>
+        function confirmCancel() {
+            return confirm("Are you sure you want to cancel this appointment?");
+        }
+
+        document.getElementById('search').addEventListener('input', function() {
+            const searchQuery = this.value;
+            const form = document.querySelector('form');
+            form.action = `/cancel?search=${encodeURIComponent(searchQuery)}`;
+        });
+    </script>
+</body>
+</html>
